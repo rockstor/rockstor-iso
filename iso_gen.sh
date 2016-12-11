@@ -2,7 +2,11 @@
 
 createrepo -g repodata/c7-x86_64-comps.xml /tmp/vanilla/
 
-mkisofs -o /tmp/Rockstor-3.8-0.iso -b isolinux/isolinux.bin -c isolinux/boot.cat --no-emul-boot --boot-load-size 4 --boot-info-table -r -R -J -v -T -V "Rockstor 3 x86_64" /tmp/vanilla
+mkisofs -U -A "Rockstor-3.8-0" -V "Rockstor 3 x86_64" \
+    -volset "Rockstor-3.8-0" -J -joliet-long -r -v -T -x ./lost+found \
+    -o /tmp/Rockstor-3.8-0.iso \
+    -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 \
+    -boot-info-table -eltorito-alt-boot -e images/efiboot.img -no-emul-boot /tmp/vanilla/
 
 isohybrid /tmp/Rockstor-3.8-0.iso
 implantisomd5 /tmp/Rockstor-3.8-0.iso
